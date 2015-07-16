@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+function chain-sub {
+  set -efu
+
+  local nm_this="${1##*/}"; shift
+  local pth_this="$(type -P "${nm_this}")"
+
+  if [[ "$#" > 0 ]]; then
+    if [[ ! "$1" =~ ^- ]]; then
+      local pth_next="$(type -P "${nm_this}-$1" || true)"
+
+      if [[ -e "$pth_next" ]]; then
+        if [[ -x "$pth_next" ]]; then
+          shift
+          exec "$pth_next" "$@"
+        else
+          echo "ERR: found non-executable $pth_next" 1>&2
+          exit 1
+        fi
+      fi
+    fi
+  fi
+
+  if [[ "$(type -t main)" = "function" ]]; then
+    unset _SUB
+    main "$@"
+  elif [[ "$pth_this" != "$nm_this" && -x "$pth_this" ]]; then
+    exec "$pth_this" "$@"
+  else
+    if [[ "$#" > 0 ]]; then
+      echo "ERR: command $nm_this $1 not implemented" 1>&2
+    else
+      echo "ERR: command $nm_this not implemented" 1>&2
+    fi
+    exit 1
+  fi
+}
+
+if [[ -z "${_SUB:-}" ]]; then
+  export _SUB="$BASH_SOURCE"
+
+  shome="$(unset CDPATH; cd -P -- "$(dirname -- "$BASH_SOURCE")/.." && pwd -P)"
+  export PATH="$shome/exec:$PATH"
+
+  set -- "$BASH_SOURCE" "$@"
+fi
+
+chain-sub "$@"

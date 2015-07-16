@@ -11,5 +11,5 @@ Here's an example:
       uname -a
     }
 
-    source sub "$BASH_SOURCE" "$@"
+    source sub "$0" "$@"
 

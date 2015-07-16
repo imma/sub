@@ -17,29 +17,20 @@ function chain-sub {
   # bash strict mode
   set -efu
 
-  # first arg is the script filename, which won't get set if sub is linked to
-  # directly
-  if [[ "$#" == 0 ]]; then
-    set -- "$BASH_SOURCE"
-  fi
+  local pth_source="$1"; shift
+  export PATH="$(unset CDPATH; cd -P -- "$(dirname -- "$pth_source")/.." && pwd -P)/exec:$PATH"
 
   # search for xxx in PATH
-  local nm_this="${1##*/}"
+  local nm_this="${pth_source##*/}"
   local pth_this="$(type -P "${nm_this}")"
-  : ${pth_this:="$1"}
-  shift
+  : ${pth_this:="$pth_source"}
 
-  # if this is not the last resort search for a script
-  if [[ "${nm_this##*-}" != "default" ]]; then
-    # if the argument doesnt look like an option
-    if [[ "$#" > 0 && ! "$1" =~ ^- ]]; then
-      # try searching for the next sub-command
-      try-next "${nm_this}-$1" "$@"
-    else
-      # try searching for a default
-      try-next "${nm_this}-default" "" "$@"
-    fi
+  # if the argument doesnt look like an option
+  if [[ "$#" > 0 && ! "$1" =~ ^- ]]; then
+    # try searching for the next sub-command
+    try-next "${nm_this}-$1" "$@"
   fi
+
   # if this is reached, no sub-command was found, and we're running in the
   # script
 
@@ -58,11 +49,5 @@ function chain-sub {
     exit 1
   fi
 }
-
-if [[ -z "${_SUB:-}" ]]; then
-  export PATH="$(unset CDPATH; cd -P -- "$(dirname -- "$BASH_SOURCE")/.." && pwd -P)/exec:$PATH"
-  export _SUB="$BASH_SOURCE"
-  set -- "$BASH_SOURCE" "$@"
-fi
 
 chain-sub "$@"

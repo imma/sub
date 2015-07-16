@@ -1,27 +1,9 @@
-Starting a sub-command chain
-============================
-
-Symlink or copy `exec/sub` into `bin/command`; this is the public entry
-point into the sub-commands, and `bin` can be put into `$PATH`.
-
-Implementating the top level command
-====================================
-
-`bin/command` searches for an implementation of `command`.  The default
-is searched in `exec/command-default` or any `command-default` in the
-`$PATH`.
-
-Implementation a sub-command
-============================
-
-`command xxx` searches for `exec/command-xxx` or `command-xxx` in
-`$PATH`.
-
 Implementation boilerplate
 ==========================
 
 Implementation scripts contain a `main` function and sources the
-`exec/sub` script (exposed via `$_SUB` variable). 
+`sub` script (put into `$PATH`).  The scripts should be put in `exec` in
+the project repo or searcheable in `$PATH`.
 
 Here's an example:
 
@@ -29,5 +11,5 @@ Here's an example:
       uname -a
     }
 
-    source "$_SUB" "$BASH_SOURCE" "$@"
+    source sub "$BASH_SOURCE" "$@"
 

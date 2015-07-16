@@ -14,30 +14,42 @@ function try-next {
 }
 
 function chain-sub {
+  # bash strict mode
   set -efu
 
+  # first arg is the script filename, which won't get set if sub is linked to
+  # directly
   if [[ "$#" == 0 ]]; then
     set -- "$BASH_SOURCE"
   fi
 
+  # search for xxx in PATH
   local nm_this="${1##*/}"
   local pth_this="$(type -P "${nm_this}")"
   : ${pth_this:="$1"}
   shift
 
+  # if this is not the last resort search for a script
   if [[ "${nm_this##*-}" != "default" ]]; then
+    # if the argument doesnt look like an option
     if [[ "$#" > 0 && ! "$1" =~ ^- ]]; then
+      # try searching for the next sub-command
       try-next "${nm_this}-$1" "$@"
     else
+      # try searching for a default
       try-next "${nm_this}-default" "" "$@"
     fi
   fi
+  # if this is reached, no sub-command was found, and we're running in the
+  # script
 
+  # execute the script's main function
   if [[ "$(type -t main)" = "function" ]]; then
     unset _SUB
     main "$@"
     exit "$?"
   else
+    # incomplete sub-command
     if [[ "$#" > 0 ]]; then
       echo "ERR: command $nm_this $1 not implemented" 1>&2
     else
@@ -48,11 +60,8 @@ function chain-sub {
 }
 
 if [[ -z "${_SUB:-}" ]]; then
+  export PATH="$(unset CDPATH; cd -P -- "$(dirname -- "$BASH_SOURCE")/.." && pwd -P)/exec:$PATH"
   export _SUB="$BASH_SOURCE"
-
-  shome="$(unset CDPATH; cd -P -- "$(dirname -- "$BASH_SOURCE")/.." && pwd -P)"
-  export PATH="$shome/exec:$PATH"
-
   set -- "$BASH_SOURCE" "$@"
 fi
 

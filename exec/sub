@@ -1,32 +1,42 @@
 #!/usr/bin/env bash
 
+function try-next {
+  local pth_next="$(type -P "$1" || true)"; shift; shift
+
+  if [[ -e "$pth_next" ]]; then
+    if [[ -x "$pth_next" ]]; then
+      exec "$pth_next" "$@"
+    else
+      echo "ERR: found non-executable $pth_next" 1>&2
+      exit 1
+    fi
+  fi
+}
+
 function chain-sub {
   set -efu
 
-  local nm_this="${1##*/}"; shift
+  if [[ "$#" == 0 ]]; then
+    set -- "$BASH_SOURCE"
+  fi
+
+  local nm_this="${1##*/}"
   local pth_this="$(type -P "${nm_this}")"
+  : ${pth_this:="$1"}
+  shift
 
-  if [[ "$#" > 0 ]]; then
-    if [[ ! "$1" =~ ^- ]]; then
-      local pth_next="$(type -P "${nm_this}-$1" || true)"
-
-      if [[ -e "$pth_next" ]]; then
-        if [[ -x "$pth_next" ]]; then
-          shift
-          exec "$pth_next" "$@"
-        else
-          echo "ERR: found non-executable $pth_next" 1>&2
-          exit 1
-        fi
-      fi
+  if [[ "${nm_this##*-}" != "default" ]]; then
+    if [[ "$#" > 0 && ! "$1" =~ ^- ]]; then
+      try-next "${nm_this}-$1" "$@"
+    else
+      try-next "${nm_this}-default" "" "$@"
     fi
   fi
 
   if [[ "$(type -t main)" = "function" ]]; then
     unset _SUB
     main "$@"
-  elif [[ "$pth_this" != "$nm_this" && -x "$pth_this" ]]; then
-    exec "$pth_this" "$@"
+    exit "$?"
   else
     if [[ "$#" > 0 ]]; then
       echo "ERR: command $nm_this $1 not implemented" 1>&2

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+export MEH=$((MEH + 1 ))
+
+function main {
+  uname -a
+  echo "$@"
+  echo "$MEH"
+}
+
+source sub "$0" "$@"

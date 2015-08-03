@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PATH="$(unset CDPATH; cd -P -- "$(dirname -- "$BASH_SOURCE")/../.." && pwd -P)/exec:$PATH"
+source "$(unset CDPATH; cd -P -- "$(dirname -- "$BASH_SOURCE")/../.." && pwd -P)/script/profile"
 
 export MEH=1
 

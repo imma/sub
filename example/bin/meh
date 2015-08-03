@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-source "$(unset CDPATH; cd -P -- "$(dirname -- "$BASH_SOURCE")/../.." && pwd -P)/script/profile"
-
 export MEH=1
 
 function main {

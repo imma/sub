@@ -18,12 +18,10 @@ function chain-sub {
   set -efu
 
   local pth_source="$1"; shift
-  export PATH="$(unset CDPATH; cd -P -- "$(dirname -- "$pth_source")/.." && pwd -P)/exec:$PATH"
+  export PATH="$(cd -P -- "$(dirname -- "$pth_source")/.." && echo "$PWD")/exec:$PATH"
 
   # search for xxx in PATH
   local nm_this="${pth_source##*/}"
-  local pth_this="$(type -P "${nm_this}")"
-  : ${pth_this:="$pth_source"}
 
   # if the argument doesnt look like an option
   if [[ "$#" > 0 && ! "$1" =~ ^- ]]; then
@@ -35,7 +33,7 @@ function chain-sub {
   # script
 
   # execute the script's main function
-  if [[ "$(type -t main)" = "function" ]]; then
+  if declare -f -F main >/dev/null; then
     unset _SUB
     main "$@"
     exit "$?"

@@ -3,13 +3,11 @@
 function try-next {
   local pth_next="$(type -P "$1" || true)"; shift; shift
 
-  if [[ -e "$pth_next" ]]; then
-    if [[ -x "$pth_next" ]]; then
+  if [[ -x "$pth_next" ]]; then
       exec "$pth_next" "$@"
-    else
-      echo "ERR: found non-executable $pth_next" 1>&2
-      exit 1
-    fi
+  elif [[ -e "$pth_next" ]]; then
+    echo "ERR: found non-executable $pth_next" 1>&2
+    exit 1
   fi
 }
 
@@ -33,7 +31,6 @@ function chain-sub {
 
   # execute the script's main function
   if declare -f -F main >/dev/null; then
-    unset _SUB
     main "$@"
     exit "$?"
   else

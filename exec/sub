@@ -18,7 +18,6 @@ function chain-sub {
   set -efu
 
   local pth_source="$1"; shift
-  export PATH="$(cd -P -- "$(dirname -- "$pth_source")/.." && echo "$PWD")/exec:$PATH"
 
   # search for xxx in PATH
   local nm_this="${pth_source##*/}"

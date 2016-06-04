@@ -4,7 +4,7 @@ function try-next {
   local pth_next="$(type -P "$1" || true)"; shift; shift
 
   if [[ -x "$pth_next" ]]; then
-      exec "$pth_next" "$@"
+    exec "$pth_next" "$@"
   elif [[ -e "$pth_next" ]]; then
     echo "ERR: found non-executable $pth_next" 1>&2
     exit 1
@@ -12,9 +12,6 @@ function try-next {
 }
 
 function chain-sub {
-  # bash strict mode
-  set -efu
-
   local pth_source="$1"; shift
 
   # search for xxx in PATH
@@ -29,8 +26,12 @@ function chain-sub {
   # if this is reached, no sub-command was found, and we're running in the
   # script
 
-  # execute the script's main function
-  if declare -f -F main >/dev/null; then
+  # execute the script's args or main function
+  if declare -f -F args >/dev/null; then
+    args
+    FLAGS "$@"
+    exit "$?"
+  elif declare -f -F main >/dev/null; then
     main "$@"
     exit "$?"
   else

@@ -2,4 +2,4 @@
 
 export COLOR="green"
 
-source sub-middleware "$BASH_SOURCE" "$@"
+exec sub-middleware "$BASH_SOURCE" "$@"

@@ -3,4 +3,4 @@
 export DEVICE=
 
 unset SUB_MIDDLEWARE
-source sub-middleware "$BASH_SOURCE" "$@"
+exec sub-middleware "$BASH_SOURCE" "$@"

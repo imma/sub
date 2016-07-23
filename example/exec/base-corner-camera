@@ -2,4 +2,4 @@
 
 export DEVICE="${DEVICE:+${DEVICE} }camera"
 
-source sub-middleware "$BASH_SOURCE" "$@"
+exec sub-middleware "$BASH_SOURCE" "$@"

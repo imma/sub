@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+function main {
+  echo "${COLOR:-white}"
+}
+
+source sub "$BASH_SOURCE" "$@"

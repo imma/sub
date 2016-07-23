@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+export COLOR="red"
+
+source sub-middleware "$BASH_SOURCE" base "$@"

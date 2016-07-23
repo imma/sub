@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-function main {
-  false
-}
-
-source sub "$0" "$@"

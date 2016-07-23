@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+if ! declare -f -F main >/dev/null; then
+function main {
+  return 0
+}
+fi
+
+function middleware-sub {
+  local nm_source="$1"; shift
+  local nm_base="$1"; shift
+
+  if [[ "$#" == 0 ]]; then
+    source sub "${nm_source}" "$@" 
+    return "$?"
+  fi
+
+  if [[ "$(which "${nm_base}-${1:-}" 2>&- || true)" ]]; then
+    exec "${nm_base}-${1}" "${@:2}"
+  else
+    source sub "${nm_base}" "$@" 
+  fi
+}
+
+middleware-sub "$@"

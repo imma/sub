@@ -3,4 +3,5 @@
 _shome="$(cd -P -- "${BASH_SOURCE%/*}/.." && pwd -P)"
 PATH="$_shome/bin:$_shome/exec:$PATH"
 
-source sub-middleware base "$BASH_SOURCE" "$@"
+unset SUB_MIDDLEWARE
+source sub-middleware "$BASH_SOURCE" "$@"

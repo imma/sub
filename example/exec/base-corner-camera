@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+export DEVICE="${DEVICE:+${DEVICE} }camera"
+
+source sub-middleware "$BASH_SOURCE" "$@"

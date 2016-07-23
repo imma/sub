@@ -1,13 +1,20 @@
 #!/usr/bin/env bash
 
+if ! declare -f -F main >/dev/null; then
+function main {
+  return 0
+}
+fi
+
 function middleware-sub {
+  local nm_source="$1"; shift
+
   if [[ -z "${SUB_MIDDLEWARE}" ]]; then
-    local nm_base="$1"; shift
+    local nm_base="${nm_source##*/}"
   else
     local nm_base="${SUB_MIDDLEWARE}"
   fi
 
-  local nm_source="$1"; shift
 
   if [[ "$#" == 0 ]]; then
     source sub "${nm_source}" "$@" 

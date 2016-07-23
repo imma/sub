@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+export DEVICE="${DEVICE:+${DEVICE} }alarm"
+
+source sub-middleware "$BASH_SOURCE" "$@"

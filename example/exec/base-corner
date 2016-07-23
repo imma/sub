@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+export DEVICE=
+
+unset SUB_MIDDLEWARE
+source sub-middleware "$BASH_SOURCE" "$@"

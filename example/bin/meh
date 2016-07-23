@@ -2,6 +2,9 @@
 
 export MEH=1
 
+_shome="$(cd -P -- "${BASH_SOURCE%/*}/.." && pwd -P)"
+PATH="$_shome/bin:$_shome/exec:$PATH"
+
 function main {
   ps axu | head
   echo "$@"

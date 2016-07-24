@@ -1,32 +1,23 @@
 #!/usr/bin/env bash
 
 if ! declare -f -F main >/dev/null; then
-function main {
-  return 0
-}
+  function main {
+    true 
+  }
 fi
 
 function middleware-sub {
   local nm_source="$1"; shift
-
-  if [[ -z "${SUB_MIDDLEWARE}" ]]; then
-    local nm_base="${nm_source##*/}"
-  else
-    local nm_base="${SUB_MIDDLEWARE}"
-  fi
-
 
   if [[ "$#" == 0 ]]; then
     source sub "${nm_source}" "$@" 
     return "$?"
   fi
 
-  if [[ "$(which "${nm_base}-${1:-}" 2>&- || true)" ]]; then
-    export SUB_MIDDLEWARE="${nm_base}"
-    exec "${nm_base}-${1}" "${@:2}"
+  if [[ "$(which "${SUB_MIDDLEWARE}-${1:-}" 2>&- || true)" ]]; then
+    exec "${SUB_MIDDLEWARE}-${1}" "${@:2}"
   else
-    unset SUB_MIDDLEWARE
-    source sub "${nm_base}" "$@" 
+    "${SUB_MIDDLEWARE}" "$@" 
   fi
 }
 

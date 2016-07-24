@@ -2,5 +2,5 @@
 
 export DEVICE=
 
-unset SUB_MIDDLEWARE
-exec sub-middleware "$BASH_SOURCE" "$@"
+export SUB_MIDDLEWARE='base-corner'
+exec sub "$BASH_SOURCE" "$@"

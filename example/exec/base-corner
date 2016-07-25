@@ -2,5 +2,9 @@
 
 export DEVICE=
 
+function main {
+  uname -a
+}
+
 export SUB_MIDDLEWARE='base-corner'
-exec sub "$BASH_SOURCE" "$@"
+source sub "$BASH_SOURCE" "$@"

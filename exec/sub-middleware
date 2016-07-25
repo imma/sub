@@ -1,18 +1,7 @@
 #!/usr/bin/env bash
 
-if ! declare -f -F main >/dev/null; then
-  function main {
-    true 
-  }
-fi
-
 function middleware-sub {
   local nm_source="$1"; shift
-
-  if [[ "$#" == 0 ]]; then
-    source sub "${nm_source}" "$@" 
-    return "$?"
-  fi
 
   if [[ "$(which "${SUB_MIDDLEWARE}-${1:-}" 2>&- || true)" ]]; then
     exec "${SUB_MIDDLEWARE}-${1}" "${@:2}"

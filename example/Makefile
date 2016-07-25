@@ -13,3 +13,10 @@ all:
 	bin/base corner alarm install
 	bin/base corner camera install
 	bin/base corner alarm camera install
+	bin/base ceiling
+	bin/base ceiling alarm
+	bin/base ceiling camera
+	bin/base ceiling install
+	bin/base ceiling alarm install
+	bin/base ceiling camera install
+	bin/base ceiling alarm camera install

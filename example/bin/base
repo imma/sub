@@ -7,5 +7,4 @@ function main {
   df -klh
 }
 
-export SUB_MIDDLEWARE='base'
-source sub "$BASH_SOURCE" "$@"
+source sub-chain "$BASH_SOURCE" "$@"

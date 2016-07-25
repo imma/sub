@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+function start-middleware-chain  {
+  local nm_source="$1"; shift
+
+  export SUB_MIDDLEWARE="${nm_source##*/}"
+  source sub "$nm_source" "$@"
+}
+
+start-middleware-chain "$@"

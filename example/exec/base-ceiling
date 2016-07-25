@@ -3,7 +3,7 @@
 export DEVICE=
 
 function main {
-  uname -a
+  uptime
 }
 
-source sub-chain "$BASH_SOURCE" "$@"
+source sub-chain "base-corner" "$@"

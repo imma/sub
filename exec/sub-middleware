@@ -3,11 +3,14 @@
 function middleware-sub {
   local nm_source="$1"; shift
 
-  if [[ "$(which "${SUB_MIDDLEWARE}-${1:-}" 2>&- || true)" ]]; then
-    exec "${SUB_MIDDLEWARE}-${1}" "${@:2}"
-  else
-    "${SUB_MIDDLEWARE}" "$@" 
-  fi
+  local nm_middleware
+  for nm_middleware in ${SUB_MIDDLEWARE}; do
+    if [[ "$(which "${nm_middleware}-${1:-}" 2>&- || true)" ]]; then
+      exec "${nm_middleware}-${1}" "${@:2}"
+    fi
+  done
+
+  "${SUB_MIDDLEWARE%% *}" "$@" 
 }
 
 middleware-sub "$@"

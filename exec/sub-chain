@@ -3,7 +3,7 @@
 function start-middleware-chain  {
   local nm_source="$1"; shift
 
-  export SUB_MIDDLEWARE="${nm_source##*/}"
+  export SUB_MIDDLEWARE="${SUB_MIDDLEWARE:+${SUB_MIDDLEWARE} }${nm_source##*/}"
   source sub "$nm_source" "$@"
 }
 

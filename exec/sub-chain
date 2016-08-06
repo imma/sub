@@ -15,11 +15,11 @@ function sub-chain {
   export SUB_RMIDDLEWARE=" ${nm_source##*/}${SUB_MIDDLEWARE:+ ${SUB_MIDDLEWARE}} "
 
   for a in $SUB_RMIDDLEWARE; do
-    local nm_env="___$a"
+    local nm_env="___${a//-/_}"
     if [[ -n "${!nm_env:-}" ]]; then
       continue
     fi
-    eval "___$a"=1
+    eval "$nm_env"=1
     debug "    trying ${a:+$a-}${1:-1}" 1>&2
     if type -P "${a:+$a-}${1:-1}" >/dev/null; then
       debug "    found ${a:+$a-}${1:-1}" 1>&2
@@ -34,11 +34,11 @@ function sub-chain {
   fi
 
   for a in $SUB_RMIDDLEWARE; do
-    local nm_env="____$a"
+    local nm_env="____${a//-/_}"
     if [[ -n "${!nm_env:-}" ]]; then
       continue
     fi
-    eval "____$a"=1
+    eval "$nm_env"=1
     debug "    trying $a" 1>&2
     if type -P "$a" >/dev/null; then
       debug "    found $a" 1>&2

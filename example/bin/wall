@@ -4,7 +4,11 @@ _shome="$(cd -P -- "${BASH_SOURCE%/*}/.." && pwd -P)"
 PATH="$_shome/bin:$_shome/exec:$PATH"
 
 function main {
-  figlet BASE
+  if [[ "$#" == 0 ]]; then
+    figlet WALL
+  else
+    exec "$@"
+  fi
 }
 
 source sub-chain "$BASH_SOURCE" "$@"

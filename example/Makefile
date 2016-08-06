@@ -1,22 +1,22 @@
 all:
-	bin/base
-	bin/base red
-	bin/base green
-	bin/base paint
-	bin/base red paint
-	bin/base green paint
-	bin/base green red paint
-	bin/base corner
-	bin/base corner alarm
-	bin/base corner camera
-	bin/base corner install
-	bin/base corner alarm install
-	bin/base corner camera install
-	bin/base corner alarm camera install
-	bin/base ceiling
-	bin/base ceiling alarm
-	bin/base ceiling camera
-	bin/base ceiling install
-	bin/base ceiling alarm install
-	bin/base ceiling camera install
-	bin/base ceiling alarm camera install
+	bin/wall
+	bin/wall red
+	bin/wall green
+	bin/wall paint
+	bin/wall red paint
+	bin/wall green paint
+	bin/wall green red paint
+	bin/wall corner
+	bin/wall corner alarm
+	bin/wall corner camera
+	bin/wall corner install
+	bin/wall corner alarm install
+	bin/wall corner camera install
+	bin/wall corner alarm camera install
+	bin/wall ceiling
+	bin/wall ceiling red
+	bin/wall ceiling green
+	bin/wall ceiling paint
+	bin/wall ceiling red paint
+	bin/wall ceiling green paint
+	bin/wall ceiling green red paint

@@ -6,4 +6,4 @@ function main {
   figlet CEILING
 }
 
-source sub-chain "base-corner" "$@"
+source sub-chain "$BASH_SOURCE" "$@"

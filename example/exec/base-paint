@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function main {
-  echo "${COLOR:-white}"
+  figlet PAINT "${COLOR:-white}"
 }
 
 source sub "$BASH_SOURCE" "$@"

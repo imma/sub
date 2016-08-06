@@ -3,7 +3,7 @@
 export DEVICE=
 
 function main {
-  uname -a
+  figlet CORNER
 }
 
 source sub-chain "$BASH_SOURCE" "$@"

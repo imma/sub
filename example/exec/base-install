@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function main {
-  echo "${DEVICE:-nothing}"
+  figlet INSTALL "${DEVICE:-nothing}"
 }
 
 source sub "$BASH_SOURCE" "$@"

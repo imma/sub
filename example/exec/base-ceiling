@@ -3,7 +3,7 @@
 export DEVICE=
 
 function main {
-  uptime
+  figlet CEILING
 }
 
 source sub-chain "base-corner" "$@"

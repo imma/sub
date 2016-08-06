@@ -5,7 +5,7 @@ function middleware-sub {
 
   local nm_middleware
   for nm_middleware in ${SUB_MIDDLEWARE}; do
-    if [[ "$(which "${nm_middleware}-${1:-}" 2>&- || true)" ]]; then
+    if type -P "$a-${1:-}" 2>&-; then
       exec "${nm_middleware}-${1}" "${@:2}"
     fi
   done

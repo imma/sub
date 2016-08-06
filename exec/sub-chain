@@ -4,7 +4,21 @@ function start-middleware-chain  {
   local nm_source="$1"; shift
 
   export SUB_MIDDLEWARE="${SUB_MIDDLEWARE:+${SUB_MIDDLEWARE} }${nm_source##*/}"
-  source sub "$nm_source" "$@"
+  export SUB_RMIDDLEWARE="${nm_source##*/}${SUB_MIDDLEWARE:+ ${SUB_MIDDLEWARE}}"
+
+  for a in $SUB_RMIDDLEWARE; do
+    if type -P "$a-${1:-1}" >/dev/null; then
+      source sub "$a" "$@"
+      return "$?"
+    fi
+  done
+
+  for a in $SUB_RMIDDLEWARE; do
+    if type -P "$a" >/dev/null; then
+      source sub "$a" "$@"
+      return "$?"
+    fi
+  done
 }
 
 start-middleware-chain "$@"

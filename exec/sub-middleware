@@ -1,16 +1,45 @@
 #!/usr/bin/env bash
 
-function middleware-sub {
+function debug {
+  if [[ -z "${DEBUG:-}" ]]; then
+    return 0
+  fi
+
+  echo "$@"
+}
+
+function sub-middleware {
   local nm_source="$1"; shift
 
   local nm_middleware
-  for nm_middleware in ${SUB_MIDDLEWARE}; do
-    if type -P "$a-${1:-}" 2>&-; then
+  for nm_middleware in ${SUB_RMIDDLEWARE}; do
+    local nm_env="___$nm_middleware"
+    if [[ -n "${!nm_env:-}" ]]; then
+      continue
+    fi
+    eval ___$nm_middleware=1
+    debug "    trying ${nm_middleware:+$nm_middleware-}${1:-}" 1>&2
+    if type -P "${nm_middleware:+$nm_middleware-}${1:-}" >/dev/null; then
+       debug "    found ${nm_middleware:+$nm_middleware-}${1:-}" 1>&2
       exec "${nm_middleware}-${1}" "${@:2}"
     fi
   done
 
-  "${SUB_MIDDLEWARE%% *}" "$@" 
+  for nm_middleware in ${SUB_RMIDDLEWARE}; do
+    local nm_env="____$nm_middleware"
+    if [[ -n "${!nm_env:-}" ]]; then
+      continue
+    fi
+    eval ____$nm_middleware=1
+    debug "    trying $nm_middleware" 1>&2
+    if type -P "$nm_middleware" >/dev/null; then
+      debug "    found $nm_middleware" 1>&2
+      exec "${nm_middleware}" "${@}"
+    fi
+  done
+
+  debug "    not found"
 }
 
-middleware-sub "$@"
+debug XXX sub-middleware "$@" 1>&2
+sub-middleware "$@"

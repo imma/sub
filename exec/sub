@@ -1,17 +1,26 @@
 #!/usr/bin/env bash
 
+function debug {
+  if [[ -z "${DEBUG:-}" ]]; then
+    return 0
+  fi
+
+  echo "$@"
+}
+
 function try-next {
   local pth_next="$(type -P "$1" || true)"; shift; shift
 
   if [[ -x "$pth_next" ]]; then
+    debug "    --> $pth_next" "$@" 1>&2
     exec "$pth_next" "$@"
   elif [[ -e "$pth_next" ]]; then
-    echo "ERR: found non-executable $pth_next" 1>&2
+    debug "ERR: found non-executable $pth_next" 1>&2
     exit 1
   fi
 }
 
-function chain-sub {
+function sub-startx {
   local pth_source="$1"; shift
 
   # search for xxx in PATH
@@ -28,21 +37,24 @@ function chain-sub {
 
   # execute the script's args or main function
   if declare -f -F args >/dev/null; then
+    debug "   --> args()" 1>&2
     args
     FLAGS "$@"
     exit "$?"
   elif declare -f -F main >/dev/null; then
+    debug "   --> main()" 1>&2
     main "$@"
     exit "$?"
   else
     # incomplete sub-command
     if [[ "$#" > 0 ]]; then
-      echo "ERR: command $nm_this $1 not implemented" 1>&2
+      debug "ERR: command $nm_this $1 not implemented" 1>&2
     else
-      echo "ERR: command $nm_this not implemented" 1>&2
+      debug "ERR: command $nm_this not implemented" 1>&2
     fi
     exit 1
   fi
 }
 
-chain-sub "$@"
+debug XXX sub-start "$@" 1>&2
+sub-startx "$@"

@@ -28,7 +28,7 @@ function sub-chain {
     fi
   done
 
-  if [[ -x "${1:-}" ]]; then
+  if type -P "${1:-}" >/dev/null; then
     debug "    --> $@" 1>&2
     exec "$@"
   fi

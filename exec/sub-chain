@@ -30,12 +30,6 @@ function sub-chain {
           return "$?"
         fi
       done
-
-      if type -P "${1:-}" >/dev/null; then
-        debug "    --> $@" 1>&2
-        exec "$@"
-      fi
-      ;;
   esac
 
   for a in $SUB_RMIDDLEWARE; do

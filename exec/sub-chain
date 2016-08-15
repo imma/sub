@@ -28,10 +28,15 @@ function sub-chain {
     fi
   done
 
-  if type -P "${1:-}" >/dev/null; then
-    debug "    --> $@" 1>&2
-    exec "$@"
-  fi
+  case "${1:-}" in
+    -*) true ;;
+    *)
+      if type -P "${1:-}" >/dev/null; then
+        debug "    --> $@" 1>&2
+        exec "$@"
+      fi
+      ;;
+  esac
 
   for a in $SUB_RMIDDLEWARE; do
     local nm_env="____${a//-/_}"

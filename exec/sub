@@ -37,12 +37,12 @@ function sub-startx {
 
   # execute the script's args or main function
   if declare -f -F args >/dev/null; then
-    debug "   --> args()" 1>&2
+    debug "   --> $BASH_SOURCE args()" 1>&2
     args
     FLAGS "$@"
     exit "$?"
   elif declare -f -F main >/dev/null; then
-    debug "   --> main()" 1>&2
+    debug "   --> $BASH_SOURCE main() " 1>&2
     main "$@"
     exit "$?"
   else

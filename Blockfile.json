@@ -1,6 +1,7 @@
 {
   "require": [
     "shflags",
-    "normalize"
+    "normalize",
+    "bash-preexec"
   ]
 }

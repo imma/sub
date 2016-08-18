@@ -23,7 +23,7 @@ function sub-chain {
           continue
         fi
         eval "$nm_env"=1
-        debug "    trying ${a:+$a-}${1:-}" 1>&2
+        debug "    trying ${a:+$a-}${1:-} ... $@" 1>&2
         if type -P "${a:+$a-}${1:-1}" >/dev/null; then
           debug "    found ${a:+$a-}${1:-}" 1>&2
           source sub "$a" "$@"
@@ -38,7 +38,7 @@ function sub-chain {
       continue
     fi
     eval "$nm_env"=1
-    debug "    trying $a" 1>&2
+    debug "    trying $a ... $@" 1>&2
     if type -P "$a" >/dev/null; then
       debug "    found $a" 1>&2
       source sub "$a" "$@"

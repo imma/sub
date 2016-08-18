@@ -42,7 +42,7 @@ function sub-startx {
     FLAGS "$@"
     exit "$?"
   elif declare -f -F main >/dev/null; then
-    debug "   --> $BASH_SOURCE main() " 1>&2
+    debug "   --> $BASH_SOURCE main() ... $@" 1>&2
     main "$@"
     exit "$?"
   else

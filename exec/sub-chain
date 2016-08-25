@@ -49,5 +49,5 @@ function sub-chain {
   debug "   not found" 1>&2
 }
 
-debug XXX sub-chain "$@" 1>&2
+debug XXX "$BASH_SOURCE" sub-chain "$@" 1>&2
 sub-chain "$@"

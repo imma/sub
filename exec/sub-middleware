@@ -41,5 +41,5 @@ function sub-middleware {
   debug "    not found"
 }
 
-debug XXX "${BASH_SOURCE}" sub-middleware "$@" 1>&2
+debug XXX "${1}" sub-middleware "$@" 1>&2
 sub-middleware "$@"

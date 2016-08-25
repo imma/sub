@@ -56,5 +56,5 @@ function sub-startx {
   fi
 }
 
-debug XXX "${BASH_SOURCE}" sub-start "$@" 1>&2
+debug XXX "${1}" sub-start "$@" 1>&2
 sub-startx "$@"

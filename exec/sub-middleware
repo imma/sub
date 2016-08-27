@@ -8,7 +8,7 @@ function debug {
   echo "$@"
 }
 
-function sub-middleware {
+function sub_middleware {
   local nm_source="$1"; shift
 
   local nm_middleware
@@ -41,5 +41,7 @@ function sub-middleware {
   debug "    not found"
 }
 
-debug XXX "${1}" sub-middleware "$@" 1>&2
-sub-middleware "$@"
+if [[ -n "${2:-}" ]]; then
+  debug XXX "${1}" sub_middleware "$@" 1>&2
+  sub_middleware "$@"
+fi

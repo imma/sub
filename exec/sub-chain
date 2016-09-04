@@ -50,4 +50,5 @@ function sub-chain {
 }
 
 debug XXX "$1" sub-chain "$@" 1>&2
+source normalize 2>&- || true
 sub-chain "$@"

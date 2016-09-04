@@ -43,5 +43,6 @@ function sub_middleware {
 
 if [[ -n "${2:-}" ]]; then
   debug XXX "${1}" sub_middleware "$@" 1>&2
+  source normalize 2>&- || true
   sub_middleware "$@"
 fi

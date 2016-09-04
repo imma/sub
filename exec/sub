@@ -57,4 +57,5 @@ function sub-startx {
 }
 
 debug XXX "${1}" sub-start "$@" 1>&2
+source normalize 2>&- || true
 sub-startx "$@"

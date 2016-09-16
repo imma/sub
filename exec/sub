@@ -56,6 +56,6 @@ function sub-startx {
   fi
 }
 
-debug XXX "${1}" sub-start "$@" 1>&2
+debug XXX "${1}" sub "$@" 1>&2
 source normalize 2>/dev/null || true
 sub-startx "$@"

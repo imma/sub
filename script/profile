@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function _sub_profile {
-  local shome="${_sub_home:-"$(cd -P -- "${BASH_SOURCE%/*}/.." && pwd -P)"}"
+  local shome="${_sub_home:="$(cd -P -- "${BASH_SOURCE%/*}/.." && pwd -P)"}"
   PATH="$shome/exec:$PATH"
 }
 

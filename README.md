@@ -1,1 +1,1 @@
-Visit http://defn.sh/sub/ or open `docs/index.html`
+content/sub.md

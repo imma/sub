@@ -41,8 +41,7 @@ function sub-chain {
     debug "    trying $a ... $@" 1>&2
     if type -P "$a" >/dev/null; then
       debug "    found2 $a" 1>&2
-      #source sub "$a" "$@"
-      exec "$a" "$@"
+      source sub "$a" "$@"
       return "$?"
     fi
   done

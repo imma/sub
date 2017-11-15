@@ -12,7 +12,7 @@ function sub_middleware {
   local nm_source="$1"; shift
 
   local nm_middleware
-  for nm_middleware in ${SUB_RMIDDLEWARE}; do
+  for nm_middleware in ${SUB_RMIDDLEWARE:-}; do
     local nm_env="___${nm_middleware//-/}"
     if [[ -n "${!nm_env:-}" ]]; then
       continue
@@ -20,12 +20,12 @@ function sub_middleware {
     eval "$nm_env"=1 
     debug "    trying ${nm_middleware:+$nm_middleware-}${1:-} ... $@" 1>&2
     if type -P "${nm_middleware:+$nm_middleware-}${1:-}" >/dev/null; then
-       debug "    found ${nm_middleware:+$nm_middleware-}${1:-}" 1>&2
+       debug "    found3 ${nm_middleware:+$nm_middleware-}${1:-}" 1>&2
       exec "${nm_middleware}-${1}" "${@:2}"
     fi
   done
 
-  for nm_middleware in ${SUB_RMIDDLEWARE}; do
+  for nm_middleware in ${SUB_RMIDDLEWARE:-}; do
     local nm_env="____${nm_middleware//-/_}"
     if [[ -n "${!nm_env:-}" ]]; then
       continue
@@ -33,7 +33,7 @@ function sub_middleware {
     eval "$nm_env"=1 
     debug "    trying $nm_middleware ... $@" 1>&2
     if type -P "$nm_middleware" >/dev/null; then
-      debug "    found $nm_middleware" 1>&2
+      debug "    found4 $nm_middleware" 1>&2
       exec "${nm_middleware}" "${@}"
     fi
   done

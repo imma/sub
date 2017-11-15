@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+function sub-start-chain {
+  local nm_source="$1"; shift
+
+  export SUB_MIDDLEWARE="${nm_source##*/}"
+  sub-chain "$@"
+}
+
+sub-start-chain "$@"

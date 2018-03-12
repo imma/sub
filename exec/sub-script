@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+function main {
+  local shome="$(cd -P -- "${BASH_SOURCE%/*}/.." && pwd -P)"
+  source "$shome/script/profile"
+  source normalize  
+
+  local pth_cmd="$1"; shift
+  
+  mkdir -p "${pth_cmd%/*}"
+  cp "$(which sub-script-example)" "$pth_cmd"
+  chmod 755 "$pth_cmd"
+  "${EDITOR:-vi}" "$pth_cmd"
+}
+
+source sub "$BASH_SOURCE" "$@"

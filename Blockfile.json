@@ -1,7 +1,6 @@
 {
   "require": [
-    "shflags",
-    "normalize"
+    "shflags"
   ],
   "versions": {}
 }
